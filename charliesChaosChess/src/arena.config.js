@@ -37,8 +37,6 @@ export default Arena.default({
                 res.sendFile(path.join(__dirname,'static/html/index.html'));
             });  
             app.use(express.static(__dirname + '/static'));
-      
-       
 
         /**
          * Bind @colyseus/monitor
