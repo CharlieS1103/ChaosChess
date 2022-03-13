@@ -34,6 +34,7 @@ const chaosChess = () => {
         joinGravity()
       }}>Join Gravity Chess</button>
     </>
+   
   )
 }
 
