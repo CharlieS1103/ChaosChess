@@ -5,7 +5,7 @@ export class MyRoom extends Room {
 
   onCreate (options) {
     this.setState(new MyRoomState());
-
+    this.maxClients = 2;
     this.onMessage("type", (client, message) => {
       //
       // handle "type" message.

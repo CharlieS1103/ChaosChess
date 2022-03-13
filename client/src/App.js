@@ -1,6 +1,6 @@
 import * as Colyseus from "colyseus.js"
 const client = new Colyseus.Client('ws://localhost:2567')
-const ROOM_GRAVITY = 'Join Gravity!'
+const ROOM_GRAVITY = 'gravity'
 const chaosChess = () => {
   const refreshGravity = () => {
     console.log('refreshing gravity...')

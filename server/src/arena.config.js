@@ -25,19 +25,14 @@ export default Arena.default({
         /**
          * Define your room handlers:
          */
-        gameServer.define('my_room', MyRoom);
+        gameServer.define('gravity', MyRoom);
     },
 
     initializeExpress: (app) => {
         /**
          * Bind your custom express routes here:
-         */
-        const __dirname = path.resolve()
-            app.get("/", (req, res) => {
-                res.sendFile(path.join(__dirname,'static/html/index.html'));
-            });  
-            app.use(express.static(__dirname + '/static'));
 
+        
         /**
          * Bind @colyseus/monitor
          * It is recommended to protect this route with a password.
