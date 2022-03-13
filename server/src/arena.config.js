@@ -5,7 +5,7 @@ import express from "express";
 /**
  * Import your Room files
  */
-import { MyRoom } from "./rooms/MyRoom.js";
+import { Gravity } from "./rooms/Gravity.js";
 import path from 'path'
 
 const basicAuthMiddleware = basicAuth({
@@ -25,7 +25,7 @@ export default Arena.default({
         /**
          * Define your room handlers:
          */
-        gameServer.define('gravity', MyRoom);
+        gameServer.define('gravity', Gravity);
     },
 
     initializeExpress: (app) => {
