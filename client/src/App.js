@@ -20,9 +20,11 @@ const chaosChess = () => {
   const joinGravity = () => {
     client.joinOrCreate(ROOM_GRAVITY).then(room => {
       console.log(room.sessionId, "joined", room.name)
+      window.location.replace("/gravity")
     }).catch(e => {
       console.log("JOIN ERROR", e)
     })
+
   }
   return (
     <>
