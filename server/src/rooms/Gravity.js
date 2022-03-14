@@ -1,34 +1,74 @@
 import { Room } from "@colyseus/core";
 import { GravityState } from "./schema/GravityState.js";
-import {Chess} from 'chess.js'
 export class Gravity extends Room {
 
-  onCreate () {
-    this.setState(new GravityState());
-    this.maxClients = 2;
-    this.onMessage("start", (client, message) => {
-      console.log("start", message);
-      this.broadcast("start", message);
-    }
-    );
-  }
+	onCreate () {
+		let turn = "w";
+		let twoD= null;
+		this.setState(new GravityState());
+		this.maxClients = 2;
+		this.onMessage("start", (client, message) => {
+			console.log("start", message);
+			this.broadcast("start", message);
+		}
+		);
 
-  onJoin (client, options) {
-    console.log(client.sessionId, "joined!");
-    if(this.clients.length === 2) {
-      const chess = new Chess();
-      this.broadcast("setPosition", chess.fen())
-      this.broadcast("start", "Game has started!");
-    }
-  }
 
-  onLeave (client, consented) {
-    console.log(client.sessionId, "left!");
-    this.disconnect();
-  }
+		// On move handler
+		this.onMessage("move", (client, message) => {
+			
+			console.log("move", message);
+			console.log(turn);
+			const move = this.state.chess.move({
+				from: message.sourceSquare,
+				to: message.targetSquare,
+				promotion: "q"
+			});
+			// Check if the move is valid
+			if (move === null) {
+				console.log("Invalid move");
+				return;
+			}
+			// Check if it is the users turn
+			if(turn != message.color){
+				console.log("Not your turn");
+				return;
+			}
+			turn = turn === "w" ? "b" : "w";
+			twoD = this.state.chess.fen().split(" ")[0].split("/");
+			console.log(twoD);
+			this.broadcast("setPosition", this.state.chess.fen());
+			this.broadcast("updateHistory", this.state.chess.history());
+			if(this.state.chess.in_checkmate()){
+				this.broadcast("gameOver", "Checkmate!" + " " + message.color === "b" ? "White Wins!" : "Black Wins!");
+			}
+			if (this.state.chess.in_draw()) {
+				this.broadcast("gameOver", "Draw!");
+			}
+		});
+	}
 
-  onDispose() {
-    console.log("room", this.roomId, "disposing...");
-  }
+	onJoin (client) {
+
+		console.log(client.sessionId, "joined!");
+		if(this.clients.length === 2) {
+
+			this.broadcast("setPosition", this.state.chess.fen());
+			this.broadcast("start", "Game has started!");
+			this.broadcast("playerColor", "b",{except: this.clients[0]});
+		}
+		if(this.clients.length === 1){
+			this.broadcast("playerColor", "w");
+		}
+	}
+
+	onLeave (client) {
+		console.log(client.sessionId, "left!");
+		this.disconnect();
+	}
+
+	onDispose() {
+		console.log("room", this.roomId, "disposing...");
+	}
 
 }
