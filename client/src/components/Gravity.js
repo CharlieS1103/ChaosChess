@@ -6,15 +6,10 @@ import styled from "styled-components";
 const client = new Colyseus.Client('ws://localhost:2567')
 const ROOM_GRAVITY = 'gravity'
 let position = "8/8/8/8/8/8/8/8 w - - 0 1"
-let room = null;
-let playerColor = null;
-let win = null;
-let history = [];
-let comment = null;
 export default class Gravity extends React.Component {
     constructor(props){
         super(props);
-        this.state = { position: position, room: room, playerColor : playerColor, win:win, history:history,comment:comment };
+        this.state = { position: position, room: null, playerColor : null, win:null, history:[], historyHeader:"" };
     }
 
    joinGravity = () =>{
@@ -29,7 +24,8 @@ export default class Gravity extends React.Component {
             });
         room.onMessage("updateHistory", (message) => {
             console.log("updateHistory", message)
-            this.setState({history: message})
+            this.setState({history: message.history})
+            this.setState({historyHeader: message.title})
             });
         room.onMessage("playerColor", (message) => {
             console.log("playerColor", message)
@@ -52,6 +48,8 @@ export default class Gravity extends React.Component {
 
     componentDidMount() {
         console.log("Component did mount")
+        document.body.style.backgroundColor = "#151E3F";
+        document.body.style.color = "#7FC29B";
     }
     onDrop = ({ sourceSquare, targetSquare }) => {
         const color = this.state.playerColor
@@ -60,21 +58,23 @@ export default class Gravity extends React.Component {
  render(){
 return(
     <>
-       <h1>Gravity</h1>
+    <body>
+            <h1>Gravity</h1>
         <Button className="join-button" onClick={() => {
             this.joinGravity()
         }}>Start a Game</Button>
         <h2>{this.state.win}</h2>
-        <div className="history-sidebar">
-            <h3>History</h3>
+        <HistoryContainer className="history-sidebar">
+            <h3>{this.state.historyHeader}</h3>
             <h4>{this.state.comment}</h4>
             <div className="history-container">
                 {this.state.history.map(move => { return <div className="history-item">{move.join()} </div> })}
         </div>
-        </div>
+        </HistoryContainer>
         <div style={boardsContainer}>
             <Chessboard position={this.state.position} orientation={this.state.playerColor==="w"? "white" : "black"} onDrop={this.onDrop}/>
         </div>
+    </body>
     </>
 )
 }
@@ -91,11 +91,24 @@ const boardsContainer = {
     marginBottom: 50
 }
 const Button = styled.button`
-  background-color: black;
+  background-color: #747578;
   color: white;
   font-size: 20px;
   padding: 10px 60px;
   border-radius: 5px;
   margin: 10px 0px;
   cursor: pointer;
+  border: solid 2px #C7DFC5
 `;
+const HistoryContainer = styled.div`
+    width: 200px;
+    height: -webkit-fill-available;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: #7FC29B;
+    background-color: #030027;
+        `;
+const Body = styled.body`
+background-color: #151E3F;
+`

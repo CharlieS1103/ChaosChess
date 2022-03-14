@@ -58,7 +58,7 @@ export class Gravity extends Room {
 				return acc;
 			}, []);
 			console.log(history);
-			this.broadcast("updateHistory", history);
+			this.broadcast("updateHistory", {history:history, title:"History"});
 			if(this.state.chess.in_checkmate()){
 				this.broadcast("gameOver", "Checkmate!" + " " + message.color === "b" ? "White Wins!" : "Black Wins!");
 			}
