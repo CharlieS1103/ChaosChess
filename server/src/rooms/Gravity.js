@@ -4,7 +4,7 @@ export class Gravity extends Room {
 
 	onCreate () {
 		let turn = "w";
-		let twoD= null;
+		let fenArr= null;
 		this.setState(new GravityState());
 		this.maxClients = 2;
 		this.onMessage("start", (client, message) => {
@@ -35,8 +35,15 @@ export class Gravity extends Room {
 				return;
 			}
 			turn = turn === "w" ? "b" : "w";
-			twoD = this.state.chess.fen().split(" ")[0].split("/");
-			console.log(twoD);
+			fenArr = this.state.chess.fen().split(" ")[0].split("/");
+			console.log(fenArr);
+			let gameBoardMap = fenArr.map(el => el.split("").map(c => !isNaN(c) ? "o".repeat(c) : c).join(""));
+			// Make gameBoardMap a 2d array
+			gameBoardMap = gameBoardMap.map(el => el.split(""));
+		
+			for (var i = 0; i < gameBoardMap.length; i++) {
+				console.log(gameBoardMap[i].join(""));
+			}
 			this.broadcast("setPosition", this.state.chess.fen());
 			this.broadcast("updateHistory", this.state.chess.history());
 			if(this.state.chess.in_checkmate()){

@@ -39,10 +39,6 @@ export default class Gravity extends React.Component {
         room.onMessage("gameOver", message => {
             this.setState({win: message});
         });
-        room.onMessage("updateComments", message => {
-            console.log(message)
-            this.setState({comment: message});
-        });
 
         
       
