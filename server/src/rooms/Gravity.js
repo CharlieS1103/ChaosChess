@@ -62,7 +62,7 @@ export class Gravity extends Room {
 			this.broadcast("updateHistory", {history:history, title:"History"});
 			if(this.state.chess.in_checkmate()){
 				console.log("Checkmate");
-				this.broadcast("gameState", "Checkmate!" + " " + message.color === "b" ? "White Wins!" : "Black Wins!");
+				this.broadcast("gameState", "Checkmate!" + " " + message.color === "w" ? "White Wins!" : "Black Wins!");
 			}
 			if (this.state.chess.in_draw()) {
 				console.log("Draw");
