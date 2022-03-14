@@ -3,7 +3,7 @@ import * as Colyseus from "colyseus.js"
 import Chessboard from "chessboardjsx"
 import React from 'react'
 import styled from "styled-components";
-const client = new Colyseus.Client('ws://localhost:2567')
+const client = new Colyseus.Client('ws://10.0.0.162:2567')
 const ROOM_GRAVITY = 'gravity'
 let position = "8/8/8/8/8/8/8/8 w - - 0 1"
 export default class Gravity extends React.Component {
@@ -32,7 +32,7 @@ export default class Gravity extends React.Component {
             this.setState({playerColor: message})
             console.log(this.state.playerColor)
             });
-        room.onMessage("gameOver", message => {
+        room.onMessage("gameState", message => {
             this.setState({win: message});
         });
 

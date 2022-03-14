@@ -43,9 +43,9 @@ export class Gravity extends Room {
 			// Make gameBoardMap a 2d array
 			// eslint-disable-next-line no-unused-vars
 			gameBoardMap = gameBoardMap.map(el => el.split(""));
-			/*for (var i = 0; i < gameBoardMap.length; i++) {
+			for (var i = 0; i < gameBoardMap.length; i++) {
 				console.log(gameBoardMap[i].join(""));
-			}*/
+			}
       
 			this.broadcast("setPosition", this.state.chess.fen());
 			history = this.state.chess.history();
@@ -61,10 +61,12 @@ export class Gravity extends Room {
 			console.log(history);
 			this.broadcast("updateHistory", {history:history, title:"History"});
 			if(this.state.chess.in_checkmate()){
-				this.broadcast("gameOver", "Checkmate!" + " " + message.color === "b" ? "White Wins!" : "Black Wins!");
+				console.log("Checkmate");
+				this.broadcast("gameState", "Checkmate!" + " " + message.color === "b" ? "White Wins!" : "Black Wins!");
 			}
 			if (this.state.chess.in_draw()) {
-				this.broadcast("gameOver", "Draw!");
+				console.log("Draw");
+				this.broadcast("gameState", "Draw!");
 			}
 		});
 	}
@@ -73,19 +75,20 @@ export class Gravity extends Room {
 
 		console.log(client.sessionId, "joined!");
 		if(this.clients.length === 2) {
-			this.broadcast("gameOver", "Playing!");
+			this.broadcast("gameState", "Playing!");
 			this.broadcast("setPosition", this.state.chess.fen());
 			this.broadcast("start", "Game has started!");
 			this.broadcast("playerColor", "b",{except: this.clients[0]});
 		}
 		if(this.clients.length === 1){
-			this.broadcast("gameOver", "Waiting for Opponent");
+			this.broadcast("gameState", "Waiting for Opponent");
 			this.broadcast("playerColor", "w");
 		}
 	}
 
 	onLeave (client) {
 		console.log(client.sessionId, "left!");
+		this.broadcast("gameState", "Opponent left, You win!");
 		this.disconnect();
 	}
 
