@@ -63,7 +63,7 @@ return(
        <h1>Gravity</h1>
         <Button className="join-button" onClick={() => {
             this.joinGravity()
-        }}>Join Gravity Chess</Button>
+        }}>Start a Game</Button>
         <h2>{this.state.win}</h2>
         <div className="history-sidebar">
             <h3>History</h3>

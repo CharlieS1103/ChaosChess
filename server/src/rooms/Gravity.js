@@ -19,21 +19,23 @@ export class Gravity extends Room {
 			
 			console.log("move", message);
 			console.log(turn);
+			if (turn != message.color) {
+				console.log("Not your turn");
+				return;
+			}
 			const move = this.state.chess.move({
 				from: message.sourceSquare,
 				to: message.targetSquare,
 				promotion: "q"
 			});
 			// Check if the move is valid
+		
 			if (move === null) {
 				console.log("Invalid move");
 				return;
 			}
 			// Check if it is the users turn
-			if(turn != message.color){
-				console.log("Not your turn");
-				return;
-			}
+		
 			turn = turn === "w" ? "b" : "w";
 			fenArr = this.state.chess.fen().split(" ")[0].split("/");
 			console.log(fenArr);
@@ -59,12 +61,13 @@ export class Gravity extends Room {
 
 		console.log(client.sessionId, "joined!");
 		if(this.clients.length === 2) {
-
+			this.broadcast("gameOver", "Playing!");
 			this.broadcast("setPosition", this.state.chess.fen());
 			this.broadcast("start", "Game has started!");
 			this.broadcast("playerColor", "b",{except: this.clients[0]});
 		}
 		if(this.clients.length === 1){
+			this.broadcast("gameOver", "Waiting for Opponent");
 			this.broadcast("playerColor", "w");
 		}
 	}
