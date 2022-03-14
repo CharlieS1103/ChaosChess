@@ -41,6 +41,7 @@ export class Gravity extends Room {
 			fenArr = this.state.chess.fen().split(" ")[0].split("/");
 			let gameBoardMap = fenArr.map(el => el.split("").map(c => !isNaN(c) ? "o".repeat(c) : c).join(""));
 			// Make gameBoardMap a 2d array
+			// eslint-disable-next-line no-unused-vars
 			gameBoardMap = gameBoardMap.map(el => el.split(""));
 			/*for (var i = 0; i < gameBoardMap.length; i++) {
 				console.log(gameBoardMap[i].join(""));
