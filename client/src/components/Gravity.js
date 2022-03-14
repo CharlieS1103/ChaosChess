@@ -101,14 +101,14 @@ const Button = styled.button`
   border: solid 2px #C7DFC5
 `;
 const HistoryContainer = styled.div`
-    width: 200px;
+    width: 20%;
     height: -webkit-fill-available;
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 0%;
+    right: 0%;
     color: #7FC29B;
     background-color: #030027;
+    @media (max-width: 767px) {
+          display: none;
+        }
         `;
-const Body = styled.body`
-background-color: #151E3F;
-`
