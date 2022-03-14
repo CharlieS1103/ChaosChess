@@ -69,7 +69,7 @@ return(
             <h3>History</h3>
             <h4>{this.state.comment}</h4>
             <div className="history-container">
-                {this.state.history}
+                {this.state.history.map(move => { return <div className="history-item">{move.join()} </div> })}
         </div>
         </div>
         <div style={boardsContainer}>

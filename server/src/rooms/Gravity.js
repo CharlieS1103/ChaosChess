@@ -5,6 +5,7 @@ export class Gravity extends Room {
 	onCreate () {
 		let turn = "w";
 		let fenArr= null;
+		let history= null;
 		this.setState(new GravityState());
 		this.maxClients = 2;
 		this.onMessage("start", (client, message) => {
@@ -38,16 +39,26 @@ export class Gravity extends Room {
 		
 			turn = turn === "w" ? "b" : "w";
 			fenArr = this.state.chess.fen().split(" ")[0].split("/");
-			console.log(fenArr);
 			let gameBoardMap = fenArr.map(el => el.split("").map(c => !isNaN(c) ? "o".repeat(c) : c).join(""));
 			// Make gameBoardMap a 2d array
 			gameBoardMap = gameBoardMap.map(el => el.split(""));
-		
-			for (var i = 0; i < gameBoardMap.length; i++) {
+			/*for (var i = 0; i < gameBoardMap.length; i++) {
 				console.log(gameBoardMap[i].join(""));
-			}
+			}*/
+      
 			this.broadcast("setPosition", this.state.chess.fen());
-			this.broadcast("updateHistory", this.state.chess.history());
+			history = this.state.chess.history();
+			// Group the history array by every two elements
+			history = history.reduce((acc, cur, i) => {
+				if (i % 2 === 0) {
+					acc.push([cur]);
+				} else {
+					acc[acc.length - 1].push(cur);
+				}
+				return acc;
+			}, []);
+			console.log(history);
+			this.broadcast("updateHistory", history);
 			if(this.state.chess.in_checkmate()){
 				this.broadcast("gameOver", "Checkmate!" + " " + message.color === "b" ? "White Wins!" : "Black Wins!");
 			}
