@@ -3,11 +3,15 @@ import { GravityState } from "./schema/GravityState.js";
 export class Gravity extends Room {
 
 	onCreate () {
+		/* Initialize variables*/
 		let turn = "w";
 		let fenArr= null;
 		let history= null;
+		// Set the state based on  the schema
 		this.setState(new GravityState());
 		this.maxClients = 2;
+
+
 		this.onMessage("start", (client, message) => {
 			console.log("start", message);
 			this.broadcast("start", message);
@@ -15,11 +19,9 @@ export class Gravity extends Room {
 		);
 
 
-		// On move handler
+		/* On Move message Handler */
 		this.onMessage("move", (client, message) => {
-			
-			console.log("move", message);
-			console.log(turn);
+			// Check if it is the users turn
 			if (turn != message.color) {
 				console.log("Not your turn");
 				return;
@@ -30,23 +32,31 @@ export class Gravity extends Room {
 				promotion: "q"
 			});
 			// Check if the move is valid
-		
 			if (move === null) {
 				console.log("Invalid move");
 				return;
 			}
-			// Check if it is the users turn
+
 		
 			turn = turn === "w" ? "b" : "w";
 			fenArr = this.state.chess.fen().split(" ")[0].split("/");
 			let gameBoardMap = fenArr.map(el => el.split("").map(c => !isNaN(c) ? "o".repeat(c) : c).join(""));
 			// Make gameBoardMap a 2d array
-			// eslint-disable-next-line no-unused-vars
 			gameBoardMap = gameBoardMap.map(el => el.split(""));
 			for (var i = 0; i < gameBoardMap.length; i++) {
 				console.log(gameBoardMap[i].join(""));
+				/* Logs:
+					rnbokbnr
+					ppppoppp
+					oooooooo
+					oooopooo
+					ooooooPq
+					oooooPoo
+					PPPPPooP
+					RNBQKBNR
+				*/
 			}
-      
+			
 			this.broadcast("setPosition", this.state.chess.fen());
 			history = this.state.chess.history();
 			// Group the history array by every two elements
@@ -58,11 +68,12 @@ export class Gravity extends Room {
 				}
 				return acc;
 			}, []);
-			console.log(history);
+
 			this.broadcast("updateHistory", {history:history, title:"History"});
+			// Check if the game is over and update game state accordingly
 			if(this.state.chess.in_checkmate()){
 				console.log("Checkmate");
-				this.broadcast("gameState", "Checkmate!" + " " + message.color === "w" ? "White Wins!" : "Black Wins!");
+				this.broadcast("gameState", "Checkmate!" + " " + message.color === "b" ? "White Wins!" : "Black Wins!");
 			}
 			if (this.state.chess.in_draw()) {
 				console.log("Draw");
@@ -71,16 +82,25 @@ export class Gravity extends Room {
 		});
 	}
 
+	
 	onJoin (client) {
 
 		console.log(client.sessionId, "joined!");
 		if(this.clients.length === 2) {
+			/* When the second user joins:
+			 Update the gamestate to playing
+			 Lock the room(to prevent more players from joining)
+			 Set the gameboard to the initial position
+			 Set their color(always black)
+			 */
+			this.lock();
 			this.broadcast("gameState", "Playing!");
 			this.broadcast("setPosition", this.state.chess.fen());
 			this.broadcast("start", "Game has started!");
 			this.broadcast("playerColor", "b",{except: this.clients[0]});
 		}
 		if(this.clients.length === 1){
+			/*No Handling for if the first user leaves necessary as the room will just be discarded */
 			this.broadcast("gameState", "Waiting for Opponent");
 			this.broadcast("playerColor", "w");
 		}

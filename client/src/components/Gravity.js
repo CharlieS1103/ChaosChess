@@ -3,6 +3,7 @@ import * as Colyseus from "colyseus.js"
 import Chessboard from "chessboardjsx"
 import React from 'react'
 import styled from "styled-components";
+// Change the following line to your port number + ip that you want the users to call to (i.e. http://localhost:2567 or a custom domain)
 const client = new Colyseus.Client('ws://10.0.0.162:2567')
 const ROOM_GRAVITY = 'gravity'
 let position = "8/8/8/8/8/8/8/8 w - - 0 1"
@@ -59,11 +60,13 @@ export default class Gravity extends React.Component {
 return(
     <>
     <body>
-            <h1>Gravity</h1>
-        <Button className="join-button" onClick={() => {
-            this.joinGravity()
-        }}>Start a Game</Button>
+        <GameStateContainer>
+        <h1>Gravity</h1>
         <h2>{this.state.win}</h2>
+        </GameStateContainer>
+            <Button className="join-button" onClick={() => {
+                this.joinGravity()
+            }}>Start a Game</Button>
         <HistoryContainer className="history-sidebar">
             <h3>{this.state.historyHeader}</h3>
             <h4>{this.state.comment}</h4>
@@ -88,17 +91,21 @@ const boardsContainer = {
     flexWrap: "wrap",
     width: "100vw",
     marginTop: 30,
-    marginBottom: 50
+    marginBottom: 50,
+    position: "absolute",
+    bottom: "0%",
+    right: "10%",
 }
 const Button = styled.button`
   background-color: #747578;
   color: white;
   font-size: 20px;
   padding: 10px 60px;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 10px 0px;
+  z-index: 2;
   cursor: pointer;
-  border: solid 2px #C7DFC5
+  border: solid 4px #7FC29B;
 `;
 const HistoryContainer = styled.div`
     width: 20%;
@@ -108,7 +115,17 @@ const HistoryContainer = styled.div`
     right: 0%;
     color: #7FC29B;
     background-color: #030027;
+    text-align:center;
     @media (max-width: 767px) {
           display: none;
-        }
+    }
         `;
+const GameStateContainer = styled.div`
+    background-color: #C7DFC5;
+    top: 0%;
+    position: absolute;
+    padding-right: 20%;
+    text-align: center;
+    width: -webkit-fill-available;
+    z-index: -1;
+`
