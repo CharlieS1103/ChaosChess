@@ -124,7 +124,7 @@ export class Gravity extends Room {
 			
 			this.state.chess.load(boardToFen(gameBoardMap));
 			this.broadcast("setPosition", this.state.chess.fen());
-			const histToPush = piece.type != "p" ? piece.type + message.sourceSquare : message.sourceSquare;
+			const histToPush = piece.type != "p" ? piece.type + message.targetSquare : message.targetSquare;
 			history.push(histToPush);
 			// Group the history array by every two elements
 			history = history.reduce((acc, cur, i) => {

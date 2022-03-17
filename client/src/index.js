@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Gravity from './components/Gravity';
+import Flipped from './components/Flipped';
 import {
   BrowserRouter,
   Routes,
@@ -16,6 +17,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="gravity" element={<Gravity />} />
+        <Route path="flipped" element={<Flipped />} />
       </Routes>
     </BrowserRouter>,
     rootElement

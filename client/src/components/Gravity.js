@@ -3,17 +3,26 @@ import * as Colyseus from "colyseus.js"
 import Chessboard from "chessboardjsx"
 import React from 'react'
 import styled from "styled-components";
+import moveSfx from '../assets/move.mp3'
 // Change the following line to your port number + ip that you want the users to call to (i.e. http://localhost:2567 or a custom domain)
 const client = new Colyseus.Client('ws://10.0.0.162:2567')
 const ROOM_GRAVITY = 'gravity'
 let position = "8/8/8/8/8/8/8/8 w - - 0 1"
+const audio = new Audio(moveSfx)
 export default class Gravity extends React.Component {
     constructor(props){
         super(props);
-        this.state = { position: position, room: null, playerColor : null, win:null, history:[], historyHeader:"", boardEnabled:true};
+        this.state = { 
+            position: position,
+            room: null, playerColor : null, 
+            win:null, history:[], 
+            historyHeader:"", 
+            boardEnabled:true,
+        };
     }
 
    joinGravity = () =>{
+       
     client.joinOrCreate(ROOM_GRAVITY).then(room => {
         console.log(room.sessionId, "joined", room.name)
         room.onMessage("start", (message) => {
@@ -22,6 +31,7 @@ export default class Gravity extends React.Component {
         room.onMessage("setPosition", (message) => {
             console.log("setPosition", message)
             this.setState({position: message})
+           audio.play();
             });
         room.onMessage("updateHistory", (message) => {
             console.log("updateHistory", message)
