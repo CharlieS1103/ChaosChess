@@ -10,7 +10,7 @@ let position = "8/8/8/8/8/8/8/8 w - - 0 1"
 export default class Gravity extends React.Component {
     constructor(props){
         super(props);
-        this.state = { position: position, room: null, playerColor : null, win:null, history:[], historyHeader:"" };
+        this.state = { position: position, room: null, playerColor : null, win:null, history:[], historyHeader:"", boardEnabled:true};
     }
 
    joinGravity = () =>{
@@ -34,7 +34,11 @@ export default class Gravity extends React.Component {
             console.log(this.state.playerColor)
             });
         room.onMessage("gameState", message => {
-            this.setState({win: message});
+            this.setState({win: message.text});
+            if(message.boardEnabled){
+                this.setState({ boardEnabled: message.boardEnabled });
+            }
+            
         });
 
         
@@ -71,11 +75,11 @@ return(
             <h3>{this.state.historyHeader}</h3>
             <h4>{this.state.comment}</h4>
             <div className="history-container">
-                {this.state.history.map(move => { return <div className="history-item">{move.join()} </div> })}
+                {this.state.history.map(move => { return <div className="history-item">{move.join().replaceAll(",", " | ")} </div> })}
         </div>
         </HistoryContainer>
         <div style={boardsContainer}>
-            <Chessboard position={this.state.position} orientation={this.state.playerColor==="w"? "white" : "black"} onDrop={this.onDrop}/>
+                <Chessboard position={this.state.position} orientation={this.state.playerColor === "w" ? "white" : "black"} onDrop={this.onDrop} draggable={this.state.boardEnabled}/>
         </div>
     </body>
     </>
