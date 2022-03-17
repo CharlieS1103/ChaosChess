@@ -34,7 +34,8 @@ export class Gravity extends Room {
 				inCheck = true;
 			}
 			// Make queens unable to take pawns
-			if(this.state.chess.get(message.sourceSquare).type == "q" && this.state.chess.get(message.targetSquare).type == "p"){
+			if(this.state.chess?.get(message.sourceSquare)?.type == "q" && this.state.chess?.get(message.targetSquare)?.type == "p"){
+				this.broadcast("invalid", { except: this.clients[0] });
 				return null;
 			}
 			const move = this.state.chess.move({
@@ -126,6 +127,7 @@ export class Gravity extends Room {
 			
 			this.state.chess.load(boardToFen(gameBoardMap));
 			this.broadcast("setPosition", this.state.chess.fen());
+			this.broadcast("styleSquare", { [message.targetSquare]: { backgroundColor: "#1d7262" }, [message.sourceSquare]: { backgroundColor: "#5f5f03" }});
 			const histToPush = piece.type != "p" ? piece.type + message.targetSquare : message.targetSquare;
 			history.push(histToPush);
 			// Group the history array by every two elements

@@ -25,6 +25,26 @@ export default class Rules extends React.Component {
                 Gravity Chess is a chess variant that makes pieces fall towards their own sides
                 when an empty space is below them.
                 </p>
+                <h3>The Game</h3>
+                <StyledList>
+                <li>
+                
+                <p>
+                Queens are unable to take pawns in this gamemode
+                </p>
+                </li>
+                <li>
+                <p>
+                Rooks, Kings, and Pawns are unaffected by Gravity
+                </p>
+                </li>
+                <li>
+                <p>
+                When you have a piece on your opponents backrank, it is also unaffected by Gravity
+                </p>
+                </li>
+
+                </StyledList>
                 </RulesBox>
                 <RulesBox className="flipped-container">
                 <h2>Flipped Chess Rules</h2>
@@ -64,4 +84,7 @@ const RulesContainer = styled.div`
             flex-direction: row;
             justify-content: center;
             align-items: center;
+`;
+const StyledList = styled.ul`
+    list-style-type: none;
 `;

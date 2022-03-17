@@ -20,6 +20,7 @@ export default class Gravity extends React.Component {
             win:null, history:[], 
             historyHeader:"", 
             boardEnabled:true,
+            squareStyles : {}
         };
     }
 
@@ -48,16 +49,18 @@ export default class Gravity extends React.Component {
         room.onMessage("gameState", message => {
             this.setState({win: message.text});
             if(message.boardEnabled){
+                console.log("Board enabled: " + message.boardEnabled)
                 this.setState({ boardEnabled: message.boardEnabled });
             }
         });
         room.onMessage("invalid", message => {
             invalid.play();
         });
-
-
-        
-      
+        room.onMessage("styleSquare", message => {
+            this.setState({
+                squareStyles:  message 
+            })
+        })
             this.setState({room: room})
         document.getElementsByClassName('join-button')[0].remove();
     }).catch(e => {
@@ -94,7 +97,7 @@ return(
         </div>
         </HistoryContainer>
         <div style={boardsContainer}>
-                <Chessboard position={this.state.position} orientation={this.state.playerColor === "w" ? "white" : "black"} onDrop={this.onDrop} draggable={this.state.boardEnabled}/>
+                <Chessboard position={this.state.position} orientation={this.state.playerColor === "w" ? "white" : "black"} onDrop={this.onDrop} draggable={this.state.boardEnabled} squareStyles={this.state.squareStyles} />
         </div>
     </body>
     </>
