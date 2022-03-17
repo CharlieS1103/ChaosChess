@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Gravity from './components/Gravity';
 import Flipped from './components/Flipped';
+import Rules from './components/Rules';
 import {
   BrowserRouter,
   Routes,
@@ -18,6 +19,7 @@ ReactDOM.render(
         <Route path="/" element={<App />} />
         <Route path="gravity" element={<Gravity />} />
         <Route path="flipped" element={<Flipped />} />
+        <Route path="rules" element={<Rules />} />
       </Routes>
     </BrowserRouter>,
     rootElement

@@ -33,6 +33,10 @@ export class Gravity extends Room {
 			if (this.state.chess.in_check()) {
 				inCheck = true;
 			}
+			// Make queens unable to take pawns
+			if(this.state.chess.get(message.sourceSquare).type == "q" && this.state.chess.get(message.targetSquare).type == "p"){
+				return null;
+			}
 			const move = this.state.chess.move({
 				from: message.sourceSquare,
 				to: message.targetSquare,
@@ -41,7 +45,7 @@ export class Gravity extends Room {
 			// Check if the move is valid
 			if (move === null) {
 				console.log("Invalid move " + message.sourceSquare + " to " + message.targetSquare);
-				
+				this.broadcast("invalid", { except: this.clients[0] });
 				return;
 			}
 			
@@ -61,14 +65,14 @@ export class Gravity extends Room {
 					var prevRowWhite = gameBoardMap[i+ 1];  
 					for (var j = 0; j < boardRow.length; j++) {
 						if (previousRow[j] === "o" && boardRow[j] !== "o" && boardRow[j] == boardRow[j].toLowerCase() 
-						&& boardRow[j].toUpperCase() !== "P") {
+							&& boardRow[j].toUpperCase() !== "P" && boardRow[j].toUpperCase() !== "R" && boardRow[j].toUpperCase() !== "K") {
 							gameBoardMap[i - 1][j] = boardRow[j];
 							boardRow[j] = "o";
 							gravityChanged = true;							
 						}
 						if(prevRowWhite){
 							if(prevRowWhite[j] === "o" && boardRow[j] !== "o" && boardRow[j] == boardRow[j].toUpperCase() 
-							&& boardRow[j].toUpperCase() !== "P") {
+								&& boardRow[j].toUpperCase() !== "P" && boardRow[j].toUpperCase() !== "R" && boardRow[j].toUpperCase() !== "K") {
 								gameBoardMap[i + 1][j] = boardRow[j];
 								boardRow[j] = "o";
 								gravityChanged = true;							

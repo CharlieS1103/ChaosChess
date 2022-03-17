@@ -36,7 +36,7 @@ export class Flipped extends Room {
             // Check if the move is valid
             if (move === null) {
                 console.log("Invalid move " + message.sourceSquare + " to " + message.targetSquare);
-
+                this.broadcast("invalid", { except: this.clients[0] });
                 return;
             }
             

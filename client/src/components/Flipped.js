@@ -4,11 +4,13 @@ import Chessboard from "chessboardjsx"
 import React from 'react'
 import styled from "styled-components";
 import moveSfx from '../assets/move.mp3'
+import invalidSfx from '../assets/invalid.mp3'
 // Change the following line to your port number + ip that you want the users to call to (i.e. http://localhost:2567 or a custom domain)
 const client = new Colyseus.Client('ws://10.0.0.162:2567')
 const ROOM_FLIPPED = 'flipped'
 let position = "8/8/8/8/8/8/8/8 w - - 0 1"
-const audio = new Audio(moveSfx)
+const move = new Audio(moveSfx)
+const invalid = new Audio(invalidSfx)
 export default class Flipped extends React.Component {
     constructor(props) {
         super(props);
@@ -31,7 +33,7 @@ export default class Flipped extends React.Component {
             room.onMessage("setPosition", (message) => {
                 console.log("setPosition", message)
                 this.setState({ position: message })
-                audio.play();
+                move.play();
             });
             room.onMessage("updateHistory", (message) => {
                 console.log("updateHistory", message)
@@ -49,6 +51,9 @@ export default class Flipped extends React.Component {
                     this.setState({ boardEnabled: message.boardEnabled });
                 }
 
+            });
+            room.onMessage("invalid", message => {
+                invalid.play();
             });
 
 

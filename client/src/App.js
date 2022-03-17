@@ -8,6 +8,9 @@ const chaosChess = () => {
   const joinFlipped = () => {
       window.location.replace("/flipped")
   }
+  const joinRules = () => {
+      window.location.replace("/rules")
+  }
   const Button = styled.button`
   background-color: black;
   color: white;
@@ -26,6 +29,9 @@ const chaosChess = () => {
       <Button onClick={() => {
         joinFlipped()
       }}>Join Flipped Chess</Button>
+      <Button onClick={() => {
+        joinRules()
+      }}>Rules</Button>
     </>
    
   )
