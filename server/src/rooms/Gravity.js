@@ -48,8 +48,6 @@ export class Gravity extends Room {
 				this.broadcast("invalid", { except: this.clients[0] });
 				return;
 			}
-			
-	
 		
 			turn = turn === "w" ? "b" : "w";
 			fenArr = this.state.chess.fen().split(" ")[0].split("/");
@@ -131,16 +129,20 @@ export class Gravity extends Room {
 			const histToPush = piece.type != "p" ? piece.type + message.targetSquare : message.targetSquare;
 			history.push(histToPush);
 			// Group the history array by every two elements
-			history = history.reduce((acc, cur, i) => {
+			console.log(history);
+			const accumHistory = history.reduce((acc, cur, i) => {
 				if (i % 2 === 0) {
+					console.log(i);
+					console.log(cur)
 					acc.push([cur]);
-				} else {
+				} else{
+					console.log(cur)
 					acc[acc.length - 1].push(cur);
 				}
 				return acc;
 			}, []);
-
-			this.broadcast("updateHistory", {history:history, title:"History"});
+			console.log(history)
+			this.broadcast("updateHistory", {history:accumHistory, title:"History"});
 			// Check if the game is over and update game state accordingly
 			if(this.state.chess.in_checkmate()){
 				console.log("Checkmate");

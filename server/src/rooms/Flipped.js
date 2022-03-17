@@ -44,6 +44,7 @@ export class Flipped extends Room {
             this.broadcast("setPosition", this.state.chess.fen());
             history = this.state.chess.history();
             // Group the history array by every two elements
+            console.log(history)
             history = history.reduce((acc, cur, i) => {
                 if (i % 2 === 0) {
                     acc.push([cur]);
@@ -52,7 +53,7 @@ export class Flipped extends Room {
                 }
                 return acc;
             }, []);
-
+            console.log(history)
             this.broadcast("updateHistory", { history: history, title: "History" });
             // Check if the game is over and update game state accordingly
             if (this.state.chess.in_checkmate()) {
