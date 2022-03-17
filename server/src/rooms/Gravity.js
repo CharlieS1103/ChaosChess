@@ -129,19 +129,14 @@ export class Gravity extends Room {
 			const histToPush = piece.type != "p" ? piece.type + message.targetSquare : message.targetSquare;
 			history.push(histToPush);
 			// Group the history array by every two elements
-			console.log(history);
 			const accumHistory = history.reduce((acc, cur, i) => {
 				if (i % 2 === 0) {
-					console.log(i);
-					console.log(cur)
 					acc.push([cur]);
 				} else{
-					console.log(cur)
 					acc[acc.length - 1].push(cur);
 				}
 				return acc;
 			}, []);
-			console.log(history)
 			this.broadcast("updateHistory", {history:accumHistory, title:"History"});
 			// Check if the game is over and update game state accordingly
 			if(this.state.chess.in_checkmate()){
