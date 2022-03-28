@@ -114,6 +114,9 @@ return(
 
 function RoomTypeHeading(props) {
     const location = useLocation();
+    if (!location.state?.type){
+        window.location.href = "/"
+    }
     const capitalText = location.state.type.charAt(0).toUpperCase() + location.state.type.slice(1);
     return (
         <>
