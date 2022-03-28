@@ -56,6 +56,25 @@ export default class Rules extends React.Component {
                     Flipped Chess is a chess variant where the backrow and frontrow are swapped.
                 </p>
                 </RulesBox>
+                <RulesBox className="evolution-container">
+                <h2>Evolution Chess Rules</h2>
+                <p>
+                    Evolution Chess is a chess variant where pieces are allowed to evolve into other pieces.
+                </p>
+                <h3>The Game</h3>
+                <StyledList>
+                <li>
+                <p>
+                    Pieces will evolve in consecutive order when you move them
+                </p>
+                </li>
+                <li>
+                <p>
+                    The order is as follows: Pawn, Knight, Bishop, Rook, Queen and then back to Pawn
+                    </p>
+                </li>
+                </StyledList>
+                </RulesBox>
             </RulesContainer>
             </body>
         </>)
@@ -89,13 +108,15 @@ const RulesBox = styled.div`
     border-radius: 10px;
     background-color: #030027;
     color: #7FC29B;
+    width:300px;
     text-align: center;
     `;
 const RulesContainer = styled.div`
-             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 `;
 const StyledList = styled.ul`
     list-style-type: none;

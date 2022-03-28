@@ -4,8 +4,10 @@ import basicAuth from "express-basic-auth";
 /**
  * Import your Room files
  */
-import { Gravity } from "./rooms/Gravity.js";
+import { Gravity} from "./rooms/Gravity.js";
 import { Flipped } from "./rooms/Flipped.js";
+import { Evolution } from "./rooms/Evolution.js";
+
 
 
 const basicAuthMiddleware = basicAuth({
@@ -27,6 +29,7 @@ export default Arena.default({
          */
 		gameServer.define("gravity", Gravity);
 		gameServer.define("flipped", Flipped)
+		gameServer.define("evolution", Evolution)
 	},
 
 	initializeExpress: (app) => {

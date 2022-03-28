@@ -112,7 +112,9 @@ function LinkList(props) {
   const toFlipped = () => {
     navigate('/play', { state: { type:"flipped"} });
   }
-
+  const toEvolution = () => {
+    navigate('/play', { state: { type:"evolution"} });
+  }
   return (
     <>
       <li>
@@ -124,7 +126,10 @@ function LinkList(props) {
         </Button>
 
       </li>
-
+      <li>
+        <Button onClick={() => {toEvolution()}}>Join Evolution
+        </Button>
+      </li>
       <li>    <Button onClick={() => {
         joinRules()
       }}>Rules</Button></li>

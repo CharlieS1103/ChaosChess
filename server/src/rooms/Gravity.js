@@ -1,6 +1,6 @@
 import { Room } from "@colyseus/core";
 import { Chess } from "chess.js";
-import { GravityState } from "./schema/GravityState.js";
+import { DefaultState } from "./schema/DefaultState.js";
 export class Gravity extends Room {
 
 	onCreate () {
@@ -10,7 +10,7 @@ export class Gravity extends Room {
 		let history= [];
 		
 		// Set the state based on  the schema
-		this.setState(new GravityState());
+		this.setState(new DefaultState());
 		this.maxClients = 2;
 
 
