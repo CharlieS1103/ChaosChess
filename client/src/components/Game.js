@@ -87,13 +87,12 @@ export default class Game extends React.Component {
 return(
     <>
     <body>
+            <HomeButton></HomeButton>
+            
         <GameStateContainer>
        <RoomTypeHeading></RoomTypeHeading>
         <h2>{this.state.win}</h2>
         </GameStateContainer>
-            <Button className="join-button" onClick={() => {
-                this.joinRoom()
-            }}>Start a Game</Button>
         <HistoryContainer className="history-sidebar">
             <h3>{this.state.historyHeader}</h3>
             <h4>{this.state.comment}</h4>
@@ -102,6 +101,9 @@ return(
         </div>
         </HistoryContainer>
         <div style={boardsContainer}>
+                <Button className="join-button" onClick={() => {
+                    this.joinRoom()
+                }}>Start a Game</Button>
                 <Chessboard position={this.state.position} orientation={this.state.playerColor === "w" ? "white" : "black"} onDrop={this.onDrop} draggable={this.state.boardEnabled} squareStyles={this.state.squareStyles} />
         </div>
     </body>
@@ -110,10 +112,29 @@ return(
 }
 }
 
-
+function RoomTypeHeading(props) {
+    const location = useLocation();
+    const capitalText = location.state.type.charAt(0).toUpperCase() + location.state.type.slice(1);
+    return (
+        <>
+            <h1 className="page-heading">{capitalText}</h1>
+        </>
+    )
+}
+function HomeButton(props) {
+    return (
+        <>
+            <Button className="home-button" onClick={() => {
+                window.location.href = "/"
+            }
+            }>Home</Button>
+        </>
+    )
+}
 const boardsContainer = {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "center",
+    flexDirection: "column",
     alignItems: "center",
     flexWrap: "wrap",
     width: "100vw",
@@ -156,12 +177,4 @@ const GameStateContainer = styled.div`
     width: -webkit-fill-available;
     z-index: -1;
 `
-function RoomTypeHeading(props){
-    const location = useLocation();
-    const capitalText = location.state.type.charAt(0).toUpperCase() + location.state.type.slice(1);
-    return (
-        <>
-            <h1 className="page-heading">{capitalText}</h1>
-        </>
-    )
-} 
+
