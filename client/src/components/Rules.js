@@ -16,7 +16,11 @@ export default class Rules extends React.Component {
         return(
              <>
             <body>
-                <Head>Rules</Head>
+                <HeaderContainer> 
+                        <HomeButton></HomeButton>
+                        <Head> Rules</Head>
+                </HeaderContainer>
+                    
             <RulesContainer className="rules-container">
                 
                 <RulesBox className="gravity-container">
@@ -69,6 +73,15 @@ const Head = styled.h1`
     padding: 20px;
     margin: 0px;
 `
+const HeaderContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #030027;
+    color: #7FC29B;
+`
 const RulesBox = styled.div`
     margin: 10px;
     padding: 10px;
@@ -77,7 +90,6 @@ const RulesBox = styled.div`
     background-color: #030027;
     color: #7FC29B;
     text-align: center;
-
     `;
 const RulesContainer = styled.div`
              display: flex;
@@ -87,4 +99,27 @@ const RulesContainer = styled.div`
 `;
 const StyledList = styled.ul`
     list-style-type: none;
+`;
+function HomeButton(props) {
+    return (
+        <>
+            <Button className="home-button" onClick={() => {
+                window.location.href = "/"
+            }
+            }>Home</Button>
+        </>
+    )
+}
+const Button = styled.button`
+  background-color: #747578;
+  color: white;
+  font-size: 20px;
+  padding: 10px 60px;
+  border-radius: 10px;
+  margin: 10px 0px;
+  z-index: 2;
+  cursor: pointer;
+  border: solid 4px #7FC29B;
+  position:absolute;
+  left:5%;
 `;
