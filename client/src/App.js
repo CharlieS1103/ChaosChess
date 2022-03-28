@@ -1,6 +1,8 @@
 
 import React from "react";
 import styled from "styled-components";
+import {useNavigate } from 'react-router-dom';
+
 export default class App extends React.Component{
   state = {
     open: false,
@@ -17,7 +19,9 @@ export default class App extends React.Component{
     document.body.style.backgroundColor = "#151E3F";
     document.body.style.color = "#7FC29B";
   }
+  
 render(){
+  
   return (
     <>
       <Head>Chaos Chess</Head>
@@ -27,18 +31,7 @@ render(){
       {this.state.open && (
       <ButtonDropdown>
         <StyledList>
-        <li>
-          <Button onClick={() => {
-            joinGravity()
-          }}>Join Gravity Chess</Button>
-          </li>
-        <li>    <Button onClick={() => {
-          joinFlipped()
-        }}>Join Flipped Chess</Button></li>
-  
-        <li>    <Button onClick={() => {
-          joinRules()
-        }}>Rules</Button></li>
+        <LinkList></LinkList>
 </StyledList>
       </ButtonDropdown>
       )}
@@ -46,13 +39,6 @@ render(){
    
   )
 }
-}
-
-const joinGravity = () => {
-  window.location.replace("/gravity")
-}
-const joinFlipped = () => {
-  window.location.replace("/flipped")
 }
 const joinRules = () => {
   window.location.replace("/rules")
@@ -115,4 +101,35 @@ const StyledList = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
+`; 
+function LinkList(props) {
+
+  const navigate = useNavigate();
+
+  const toGravity = () => {
+    navigate('/play', { state: { type:"gravity"} });
+  }
+  const toFlipped = () => {
+    navigate('/play', { state: { type:"flipped"} });
+  }
+
+  return (
+    <>
+      <li>
+        <Button onClick={() => { toGravity() }}>Join Gravity
+        </Button>
+      </li>
+      <li>
+        <Button onClick={() => {toFlipped()}}>Join Flipped
+        </Button>
+
+      </li>
+
+      <li>    <Button onClick={() => {
+        joinRules()
+      }}>Rules</Button></li>
+    </>
+  );
+
+
+}

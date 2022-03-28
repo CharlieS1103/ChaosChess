@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Gravity from './components/Gravity';
-import Flipped from './components/Flipped';
+import Game from './components/Game';
 import Rules from './components/Rules';
 import {
   BrowserRouter,
@@ -17,8 +16,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="gravity" element={<Gravity />} />
-        <Route path="flipped" element={<Flipped />} />
+        <Route path="play" element={<Game />} />
         <Route path="rules" element={<Rules />} />
       </Routes>
     </BrowserRouter>,

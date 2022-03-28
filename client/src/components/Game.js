@@ -5,13 +5,16 @@ import React from 'react'
 import styled from "styled-components";
 import moveSfx from '../assets/move.mp3'
 import invalidSfx from '../assets/invalid.mp3'
+import {useLocation} from 'react-router-dom'
 // Change the following line to your port number + ip that you want the users to call to (i.e. http://localhost:2567 or a custom domain)
-const client = new Colyseus.Client('ws://6cc0-2601-19a-8380-1020-7533-369e-dbc6-5020.ngrok.io');
-const ROOM_GRAVITY = 'gravity'
+const client = new Colyseus.Client('ws://localhost:2567');
+
+
 let position = "8/8/8/8/8/8/8/8 w - - 0 1"
+
 const move = new Audio(moveSfx)
 const invalid = new Audio(invalidSfx)
-export default class Gravity extends React.Component {
+export default class Game extends React.Component {
     constructor(props){
         super(props);
         this.state = { 
@@ -23,10 +26,11 @@ export default class Gravity extends React.Component {
             squareStyles : {}
         };
     }
-
-   joinGravity = () =>{
-       
-    client.joinOrCreate(ROOM_GRAVITY).then(room => {
+    
+   joinRoom = () =>{
+       const ROOM_TYPE = document.getElementsByClassName("page-heading")[0].innerHTML.toLowerCase();
+       console.log(ROOM_TYPE)
+    client.joinOrCreate(ROOM_TYPE).then(room => {
         console.log(room.sessionId, "joined", room.name)
         room.onMessage("start", (message) => {
             console.log("Game is starting!")
@@ -79,15 +83,16 @@ export default class Gravity extends React.Component {
         this.state.room.send("move", { sourceSquare, targetSquare, color } )
     };
  render(){
+
 return(
     <>
     <body>
         <GameStateContainer>
-        <h1>Gravity</h1>
+       <RoomTypeHeading></RoomTypeHeading>
         <h2>{this.state.win}</h2>
         </GameStateContainer>
             <Button className="join-button" onClick={() => {
-                this.joinGravity()
+                this.joinRoom()
             }}>Start a Game</Button>
         <HistoryContainer className="history-sidebar">
             <h3>{this.state.historyHeader}</h3>
@@ -151,3 +156,12 @@ const GameStateContainer = styled.div`
     width: -webkit-fill-available;
     z-index: -1;
 `
+function RoomTypeHeading(props){
+    const location = useLocation();
+    const capitalText = location.state.type.charAt(0).toUpperCase() + location.state.type.slice(1);
+    return (
+        <>
+            <h1 className="page-heading">{capitalText}</h1>
+        </>
+    )
+} 
