@@ -102,6 +102,15 @@ const StyledList = styled.ul`
   justify-content: center;
   align-items: center;
 `; 
+const JoinButtonList = styled.ul`
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+`;
+const ListItem = styled.li`
+ margin: 5px;
+`
 function LinkList(props) {
 
   const navigate = useNavigate();
@@ -117,22 +126,24 @@ function LinkList(props) {
   }
   return (
     <>
-      <li>
+    <JoinButtonList>
+      <ListItem>
         <Button onClick={() => { toGravity() }}>Join Gravity
         </Button>
-      </li>
-      <li>
+      </ListItem>
+      <ListItem>
         <Button onClick={() => {toFlipped()}}>Join Flipped
         </Button>
 
-      </li>
-      <li>
+      </ListItem>
+      <ListItem>
         <Button onClick={() => {toEvolution()}}>Join Evolution
         </Button>
-      </li>
-      <li>    <Button onClick={() => {
+      </ListItem>
+      </JoinButtonList>
+      <ListItem>    <Button onClick={() => {
         joinRules()
-      }}>Rules</Button></li>
+      }}>Rules</Button></ListItem>
     </>
   );
 

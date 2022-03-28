@@ -30,25 +30,23 @@ export class Evolution extends Room {
             }
             const piece = this.state.chess.get(message.sourceSquare)
             const pieceMoved = piece.type
-            
-            console.log("Piece moved: " + pieceMoved)
             const move = this.state.chess.move({
                 from: message.sourceSquare,
                 to: message.targetSquare,
                 promotion: "q"
             });
             // Check if the move is valid
-            if(pieceMoved == "q"){
-                this.state.chess.put({type:"p", color: turn}, message.targetSquare);
-            }else{
-                const nextPiece = piecesArr[piecesArr.indexOf(pieceMoved) + 1];
-                console.log(nextPiece)
-                this.state.chess.put({ type: nextPiece, color: turn},message.targetSquare);
-            }
             if (move === null) {
                 console.log("Invalid move " + message.sourceSquare + " to " + message.targetSquare);
                 this.broadcast("invalid", { except: this.clients[0] });
                 return;
+            }
+            if (pieceMoved == "q") {
+                this.state.chess.put({ type: "p", color: turn }, message.targetSquare);
+            } else if (pieceMoved == "k") {
+            } else {
+                const nextPiece = piecesArr[piecesArr.indexOf(pieceMoved) + 1];
+                this.state.chess.put({ type: nextPiece, color: turn }, message.targetSquare);
             }
 
             turn = turn === "w" ? "b" : "w";
