@@ -14,5 +14,5 @@ import arenaConfig from "./arena.config.js";
 // Create and listen on 2567 (or PORT environment variable.)
 console.log("Starting server...");
 
-listen(arenaConfig,2567);
+listen(arenaConfig);
 

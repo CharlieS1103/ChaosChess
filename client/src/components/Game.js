@@ -7,7 +7,7 @@ import moveSfx from '../assets/move.mp3'
 import invalidSfx from '../assets/invalid.mp3'
 import {useLocation} from 'react-router-dom'
 // Change the following line to your port number + ip that you want the users to call to (i.e. http://localhost:2567 or a custom domain)
-const client = new Colyseus.Client('ws://10.161.155.171:2567');
+const client = new Colyseus.Client('ws://https://chaoschessbackend.herokuapp.com');
 
 
 let position = "8/8/8/8/8/8/8/8 w - - 0 1"

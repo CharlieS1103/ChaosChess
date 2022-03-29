@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "build": "^0.1.4",
     "chess.js": "^0.12.1",
     "chessboardjsx": "^2.4.7",
     "colyseus.js": "^0.14.13",
