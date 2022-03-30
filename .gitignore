@@ -108,10 +108,9 @@ dist
 
 # Firebase deploy config
 
-.firebaserc
-firebase.json
-build
-public
-.firebase/*
+client/.firebaserc
+client/build/*
+client/public/*
+client/.firebase/*
 client/firebase.json
 *.cache
