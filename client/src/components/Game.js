@@ -6,6 +6,8 @@ import styled from "styled-components";
 import moveSfx from '../assets/move.mp3'
 import invalidSfx from '../assets/invalid.mp3'
 import {useLocation} from 'react-router-dom'
+
+
 // Change the following line to your port number + ip that you want the users to call to (i.e. http://localhost:2567 or a custom domain)
 const client = new Colyseus.Client('wss://chaos-chess.herokuapp.com');
 
@@ -86,6 +88,7 @@ export default class Game extends React.Component {
 
 return(
     <>
+        <PageMeta></PageMeta>
     <body>
             <HomeButton></HomeButton>
             
@@ -181,3 +184,16 @@ const GameStateContainer = styled.div`
     z-index: -1;
 `
 
+function PageMeta(props) {
+    return (
+        <>     <title>Chaos Chess</title>
+            <head>
+                <meta charset="UTF-8"></meta>
+                <meta name="description" content="A ton of chess variations"></meta>
+                <meta name="keywords" content="HTML, CSS, JavaScript"></meta>
+                <meta name="author" content="Charlie Simons"></meta>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+            </head>
+        </>
+    );
+}

@@ -24,6 +24,7 @@ render(){
   
   return (
     <>
+   <PageMeta></PageMeta>
       <Head>Chaos Chess</Head>
       <DropDownButton onClick={this.handleButtonClick}>
         {this.state.open ? "Close" : "Open"}
@@ -40,9 +41,7 @@ render(){
   )
 }
 }
-const joinRules = () => {
-  window.location.replace("/rules")
-}
+
 const Button = styled.button`
     background-color: #7FC29B;
     color: #151E3F;
@@ -114,7 +113,9 @@ const ListItem = styled.li`
 function LinkList(props) {
 
   const navigate = useNavigate();
-
+  const joinRules = () => {
+    navigate('/rules');
+  }
   const toGravity = () => {
     navigate('/play', { state: { type:"gravity"} });
   }
@@ -148,4 +149,17 @@ function LinkList(props) {
   );
 
 
+}
+function PageMeta(props) {
+  return (
+    <>     <title>Chaos Chess</title>
+      <head>
+        <meta charset="UTF-8"></meta>
+          <meta name="description" content="A ton of chess variations"></meta>
+            <meta name="keywords" content="HTML, CSS, JavaScript"></meta>
+              <meta name="author" content="Charlie Simons"></meta>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+                </head>
+                </>
+  );
 }

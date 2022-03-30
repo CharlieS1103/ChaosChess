@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Game from './components/Game';
 import Rules from './components/Rules';
+import NotFound from './components/notFound';
 import {
   BrowserRouter,
   Routes,
@@ -18,6 +19,7 @@ ReactDOM.render(
         <Route path="/" element={<App />} />
         <Route path="play" element={<Game />} />
         <Route path="rules" element={<Rules />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>,
     rootElement
