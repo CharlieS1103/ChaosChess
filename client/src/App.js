@@ -119,11 +119,11 @@ function LinkList(props) {
   const toGravity = () => {
     navigate('/play', { state: { type:"gravity"} });
   }
-  const toFlipped = () => {
-    navigate('/play', { state: { type:"flipped"} });
-  }
   const toEvolution = () => {
     navigate('/play', { state: { type:"evolution"} });
+  }
+  const toFourPlayer = () => {
+    navigate('/play', { state: { type:"fourPlayer"} });
   }
   return (
     <>
@@ -133,12 +133,11 @@ function LinkList(props) {
         </Button>
       </ListItem>
       <ListItem>
-        <Button onClick={() => {toFlipped()}}>Join Flipped
+        <Button onClick={() => {toEvolution()}}>Join Evolution
         </Button>
-
       </ListItem>
       <ListItem>
-        <Button onClick={() => {toEvolution()}}>Join Evolution
+        <Button onClick={() => {toFourPlayer()}}>Join Four Player
         </Button>
       </ListItem>
       </JoinButtonList>

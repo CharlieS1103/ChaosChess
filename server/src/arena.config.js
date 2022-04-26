@@ -5,7 +5,7 @@ import basicAuth from "express-basic-auth";
  * Import your Room files
  */
 import { Gravity} from "./rooms/Gravity.js";
-import { Flipped } from "./rooms/Flipped.js";
+import { FourPlayer } from "./rooms/FourPlayer.js";
 import { Evolution } from "./rooms/Evolution.js";
 
 
@@ -28,8 +28,8 @@ export default Arena.default({
          * Define your room handlers:
          */
 		gameServer.define("gravity", Gravity);
-		gameServer.define("flipped", Flipped)
 		gameServer.define("evolution", Evolution)
+		gameServer.define("fourplayer", FourPlayer)
 	},
 
 	initializeExpress: (app) => {

@@ -9,7 +9,8 @@ import {useLocation} from 'react-router-dom'
 
 
 // Change the following line to your port number + ip that you want the users to call to (i.e. http://localhost:2567 or a custom domain)
-const client = new Colyseus.Client('wss://chaos-chess.herokuapp.com');
+//const client = new Colyseus.Client('wss://chaos-chess.herokuapp.com');
+const client = new Colyseus.Client('ws://localhost:2567');
 
 
 let position = "8/8/8/8/8/8/8/8 w - - 0 1"
@@ -21,11 +22,14 @@ export default class Game extends React.Component {
         super(props);
         this.state = { 
             position: position,
-            room: null, playerColor : null, 
-            win:null, history:[], 
+            room: null, 
+            playerColor : null, 
+            win:null, 
+            history:[], 
             historyHeader:"", 
             boardEnabled:true,
-            squareStyles : {}
+            squareStyles : {},
+            chessBoard : null,
         };
     }
     
@@ -40,6 +44,9 @@ export default class Game extends React.Component {
         room.onMessage("setPosition", (message) => {
             console.log("setPosition", message)
             this.setState({position: message})
+            this.setState({
+                chessBoard: <Chessboard position={this.state.position} orientation={this.state.playerColor[0] === "w" ? "white" : "black"} onDrop={this.onDrop} draggable={this.state.boardEnabled} squareStyles={this.state.squareStyles} />
+            })
             move.play();
             });
         room.onMessage("updateHistory", (message) => {
@@ -51,6 +58,9 @@ export default class Game extends React.Component {
             console.log("playerColor", message)
             this.setState({playerColor: message})
             console.log(this.state.playerColor)
+            this.setState({
+                chessBoard: <Chessboard position={this.state.position} orientation={this.state.playerColor[0] === "w" ? "white" : "black"} onDrop={this.onDrop} draggable={this.state.boardEnabled} squareStyles={this.state.squareStyles} />
+            })
             });
         room.onMessage("gameState", message => {
             this.setState({win: message.text});
@@ -107,7 +117,7 @@ return(
                 <Button className="join-button" onClick={() => {
                     this.joinRoom()
                 }}>Start a Game</Button>
-                <Chessboard position={this.state.position} orientation={this.state.playerColor === "w" ? "white" : "black"} onDrop={this.onDrop} draggable={this.state.boardEnabled} squareStyles={this.state.squareStyles} />
+                {this.state.chessBoard}
         </div>
     </body>
     </>
@@ -183,7 +193,6 @@ const GameStateContainer = styled.div`
     width: -webkit-fill-available;
     z-index: -1;
 `
-
 function PageMeta(props) {
     return (
         <>     <title>Chaos Chess</title>
