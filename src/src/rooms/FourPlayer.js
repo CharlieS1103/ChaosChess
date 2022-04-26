@@ -1,16 +1,16 @@
 import { Room } from "@colyseus/core";
 import { DefaultState } from "./schema/DefaultState.js";
-export class Flipped extends Room {
+export class FourPlayer extends Room {
 
     onCreate() {
         /* Initialize variables*/
-        let turn = "w";
+        let turn = "w1";
         let fenArr = null;
         let history = [];
 
         // Set the state based on  the schema
         this.setState(new DefaultState());
-        this.maxClients = 2;
+        this.maxClients = 4;
 
 
         this.onMessage("start", (client, message) => {
@@ -39,8 +39,18 @@ export class Flipped extends Room {
                 this.broadcast("invalid", { except: this.clients[0] });
                 return;
             }
+            // Move order w1, b1, w2, b2
+            if (turn === "w1") {
+                turn = "b1";
+            } else if (turn === "b1") {
+                turn = "w2";
+            } else if (turn === "w2") {
+                turn = "b2";
+            } else if (turn === "b2") {
+                turn = "w1";
+            }
+           
             
-            turn = turn === "w" ? "b" : "w";
             this.broadcast("setPosition", this.state.chess.fen());
             history = this.state.chess.history();
             // Group the history array by every two elements
@@ -69,7 +79,7 @@ export class Flipped extends Room {
     onJoin(client) {
 
         console.log(client.sessionId, "joined!");
-        if (this.clients.length === 2) {
+        if (this.clients.length === 4) {
             /* When the second user joins:
              Update the gamestate to playing
              Lock the room(to prevent more players from joining)
@@ -77,17 +87,29 @@ export class Flipped extends Room {
              Set their color(always black)
              */
             this.lock();
-            const startPos = "pppppppp/rnbqkbnr/8/8/8/8/RNBQKBNR/PPPPPPPP w KQkq - 0 1"
+            client.send("playerColor", "b2")
+            const startPos = "start"
             this.broadcast("gameState", { text: "Playing!", boardEnabled: true });
             this.broadcast("setPosition", startPos);
             this.state.chess.load(startPos)
             this.broadcast("start", "Game has started!");
-            this.broadcast("playerColor", "b", { except: this.clients[0] });
+         
         }
         if (this.clients.length === 1) {
             /*No Handling for if the first user leaves necessary as the room will just be discarded */
+            client.send("playerColor", "w1")
             this.broadcast("gameState", { text: "Waiting for Opponent", boardEnabled: false });
-            this.broadcast("playerColor", "w");
+            
+        }
+        if (this.clients.length === 2) {
+            client.send("playerColor", "w2")
+            this.broadcast("gameState", { text: "Waiting for Opponent", boardEnabled: false });
+           
+        }
+        if (this.clients.length === 3) {
+            client.send("playerColor", "b1")
+            this.broadcast("gameState", { text: "Waiting for Opponent", boardEnabled: false });
+            
         }
     }
 
