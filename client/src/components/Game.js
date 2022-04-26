@@ -9,8 +9,8 @@ import {useLocation} from 'react-router-dom'
 
 
 // Change the following line to your port number + ip that you want the users to call to (i.e. http://localhost:2567 or a custom domain)
-//const client = new Colyseus.Client('wss://chaos-chess.herokuapp.com');
-const client = new Colyseus.Client('ws://localhost:2567');
+const client = new Colyseus.Client('wss://chaos-chess.herokuapp.com');
+// const client = new Colyseus.Client('ws://localhost:2567');
 
 
 let position = "8/8/8/8/8/8/8/8 w - - 0 1"
